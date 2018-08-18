@@ -12,11 +12,13 @@
             Items: <input type="text" name="items"> <br />
             <input type="submit">
         </form>
-        <script type="text/javascript">
-            $.getJSON('/_ProcessItemList', function(data) {
-                document.write(data)
-
-            });
-        </script>
+        <p>
+            {% if data %}
+            We are processing the following items <br />
+            {% for item in data %}
+            {{ item }} <br />
+            {% endfor %}   
+            {% endif %}
+        </p>    
     </body>
 </html>

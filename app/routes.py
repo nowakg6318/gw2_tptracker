@@ -84,7 +84,7 @@ def homepage():
     if request.method == 'POST':
       text = request.form['items']
       item_list = text.strip().split(',')
-      return(tuple(item_list))
+      return(render_template('index.html', data=item_list))
 
     return(render_template('index.html'))
 
