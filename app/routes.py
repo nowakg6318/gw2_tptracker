@@ -6,6 +6,7 @@ from app import app
 from json import loads
 from math import floor
 from collections import OrderedDict
+import pdb
 
 @app.route('/_gettpdata')
 def GetTPData():
@@ -77,7 +78,22 @@ def GetTPData():
   return(jsonify(ordered_market_datadict))
 
 
-@app.route('/')
-@app.route('/index')
-def index():
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
+def homepage():
+    if request.method == 'POST':
+      text = request.form['items']
+      item_list = text.strip().split(',')
+      return(tuple(item_list))
+
     return(render_template('index.html'))
+
+
+@app.route('/_ProcessItemList', methods=['GET', 'POST'])
+def _ProcessItemList():
+    if request.method == 'POST':
+        item_list = ProcessItemList.text.strip().split(',')
+        return(jsonify(item_list))
+    
+    else:
+      print('Put some kind of exception here')

@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <script type=text/javascript src="{{url_for('static', filename='js/jquery.js') }}"></script>
+        <style>
+            td, th {
+                border: 1px solid #999;
+                padding: 0.5rem;
+                text-align: center;
+            }
+            table {
+                border-collapse: collapse;
+            }
+        </style>
+        <title>GW2 Trading Post Profit Margins</title>
+    </head>
+    <body id='body'>
+        <script type="text/javascript">
+            function RefreshTable() {
+                $.getJSON('/_gettpdata',function(data){
+                    dict = JSON.parse(JSON.stringify(data)); // Got rid of stringify
+
+                    var body_string = '<body id="body"> \
+                                            <table style="width:100%"> \
+                                                <thead> \
+                                                    <tr> \
+                                                        <th>Item Name</th> \
+                                                        <th>Buy Price (copper)</th> \
+                                                        <th>Sell Price (copper)</th> \
+                                                        <th>First Tier Estimated Profits (copper)</th> \
+                                                    </tr> \
+                                                </thead> \
+                                                <tbody>';
+                    for (var item in dict){
+                        body_string += '<tr><td>' + String(item) + '</td> \
+                                         <td>' + String(dict[String(item)][0]) + '</td> \
+                                         <td>' + String(dict[String(item)][1]) + '</td> \
+                                         <td>' + String(dict[String(item)][2]) + '</td></tr>';
+                    }
+                    body_string += '</tbody> \
+                                     </table> \
+                                     </body>';
+                    $('#body').html(body_string);
+                 });
+            };
+            RefreshTable();
+            setInterval( RefreshTable, 60000);
+        </script>
+    </body>
+</html>
