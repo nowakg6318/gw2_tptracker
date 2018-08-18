@@ -8,17 +8,20 @@
             Please input the names of the items you would like track on the GW2 Trading Post. <br />
             Input the items in a comma-deliminated list.  eg: item1, item2, item3, ... <br />
         </p>
-        <form action='/', method='POST'>
+        <form action='/', id='form', onsubmit="return false">
             Items: <input type="text" name="items"> <br />
-            <input type="submit">
+            <input type="submit", value='Submit', onclick='getUserInputItems()'>
         </form>
-        <p>
-            {% if data %}
-            We are processing the following items <br />
-            {% for item in data %}
-            {{ item }} <br />
-            {% endfor %}   
-            {% endif %}
-        </p>    
+
+        <p id='form_info'></p>
+
+        <script>
+            function getUserInputItems(){
+                var new_html = '';
+                var user_input = document.getElementById('form').elements[0].value;
+                new_html = user_input + '<br>'
+                document.getElementById('form_info').innerHTML = new_html
+            }
+        </script>  
     </body>
 </html>
