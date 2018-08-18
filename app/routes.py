@@ -78,15 +78,15 @@ def GetTPData():
   return(jsonify(ordered_market_datadict))
 
 
-@app.route('/', methods=['GET'])
-@app.route('/index', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def homepage():
-    # if request.method == 'POST':
-    #   text = request.form['items']
-    #   item_list = text.strip().split(',')
-    #   return(render_template('index.html', data=item_list))
+    if request.method == 'POST':
+      text = request.form['items']
+      item_list = text.strip().split(',')
+      #return(render_template('index.html', data=item_list))
 
-    # else:
+    else:
       return(render_template('index.html'))
 
 
