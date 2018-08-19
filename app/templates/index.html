@@ -32,9 +32,12 @@
             });
             function getUserInputItems(){
                 var new_html = '';
-                var user_input = document.getElementById('form').elements[0].value;
-                new_html = user_input + '<br>'
-                document.getElementById('form_info').innerHTML = new_html
+                var user_input = document.getElementById('form').elements[0].value.split(',');
+                var i;
+                for (i = 0; i < user_input.length; i++){
+                    new_html += user_input[i] + '<br>';
+                }
+                document.getElementById('form_info').innerHTML = new_html;
             }
         </script>  
     </body>
