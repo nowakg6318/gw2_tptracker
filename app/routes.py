@@ -7,6 +7,7 @@ from app.webfunctions import ScrubUserText, FindItemNumber, ProcessItemName, Get
 
 @app.route('/_gettpdata')
 def GetTPData():
+    print(2)
     market_list = GetMarketData(session['item_id_list'])
     market_dict = CalculateMarketEstimates(market_list)
     return(jsonify(market_dict))
@@ -67,11 +68,10 @@ def Homepage():
     if request.method == 'POST':
         item_list = ScrubUserText(request.form['items'])
         item_number_list = []
-        breakpoint()
         for item_name in item_list:
           item_query_name = ProcessItemName(item_name)
           item_number = FindItemNumber(item_query_name)
-          item_number_list.append(item_number)
+          item_number_list.append(int(item_number))
         session['item_id_list'] = item_number_list
         return(redirect(url_for('MarketDataPage')))
 
@@ -81,8 +81,6 @@ def Homepage():
 
 @app.route('/market_data', methods=['GET'])
 def MarketDataPage():
-    market_list = GetMarketData(session['item_id_list'])
-    market_dict = CalculateMarketEstimates(market_list)
     return(render_template('tp_table.html'))
 
 

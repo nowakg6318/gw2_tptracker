@@ -40,6 +40,7 @@ def GetMarketData(item_number_list: List[int]) -> List[dict]:
     '''
 
     from json import loads
+    import requests
 
     id_str = ''
     for value in item_number_list:
@@ -59,7 +60,7 @@ def CalculateMarketEstimates(market_list: List[dict]) -> dict:
     for item_dict in market_list:
       estimated_profit_one = item_dict['sells'][0]['unit_price'] - item_dict['buys'][0]['unit_price'] - 0.15 *item_dict['sells'][0]['unit_price']
       estimated_profit_two = item_dict['sells'][1]['unit_price'] - item_dict['buys'][1]['unit_price'] - 0.15 *item_dict['sells'][1]['unit_price']
-      market_dict[id_dict[int(item_dict['id'])]] = [item_dict['buys'][0]['unit_price'], item_dict['sells'][0]['unit_price'], floor(estimated_profit_one)]
+      market_dict[item_dict['id']] = [item_dict['buys'][0]['unit_price'], item_dict['sells'][0]['unit_price'], floor(estimated_profit_one)]
 
     market_dict = dict(reversed(sorted(market_dict.items(), key=lambda t:t[1][2])))
     return(market_dict)
