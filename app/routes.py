@@ -8,8 +8,8 @@ from app.webfunctions import ScrubUserText, FindItemNumber, ProcessItemName, Get
 @app.route('/_gettpdata')
 def GetTPData():
     print(2)
-    market_list = GetMarketData(session['item_id_list'])
-    market_dict = CalculateMarketEstimates(market_list)
+    market_list = GetMarketData(session['items_dict'])
+    market_dict = CalculateMarketEstimates(market_list, session['items_dict'])
     return(jsonify(market_dict))
 
   # id_dict = {24295: 'Vial of Powerful Blood',
@@ -67,12 +67,14 @@ def GetTPData():
 def Homepage():
     if request.method == 'POST':
         item_list = ScrubUserText(request.form['items'])
-        item_number_list = []
+        item_id_list = []
+        item_name_list = []
         for item_name in item_list:
           item_query_name = ProcessItemName(item_name)
-          item_number = FindItemNumber(item_query_name)
-          item_number_list.append(int(item_number))
-        session['item_id_list'] = item_number_list
+          item_id = FindItemNumber(item_query_name)
+          item_id_list.append(item_id)
+          item_name_list.append(item_name)
+        session['items_dict'] = dict(zip(item_id_list, item_name_list))
         return(redirect(url_for('MarketDataPage')))
 
     else:

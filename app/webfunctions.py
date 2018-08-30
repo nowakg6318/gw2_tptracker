@@ -2,11 +2,14 @@
 
 '''
 
-from typing import List
+from typing import List,Dict
 
 def ScrubUserText(user_input_text: str) -> List[str]:
     # ScrubbaDubDub here
     item_list =  user_input_text.split(',')
+
+    for item in item_list:
+        item_list[item_list.index(item)] = item.strip()
     return(item_list)
 
 
@@ -35,7 +38,7 @@ def FindItemNumber(item_query_name: str) -> int:
     return(item_id)
 
 
-def GetMarketData(item_number_list: List[int]) -> List[dict]:
+def GetMarketData(items_dict: dict) -> List[Dict]:
     '''
     '''
 
@@ -43,8 +46,8 @@ def GetMarketData(item_number_list: List[int]) -> List[dict]:
     import requests
 
     id_str = ''
-    for value in item_number_list:
-      id_str += str(value) + ','
+    for value in items_dict.keys():
+      id_str += value + ','
     id_str = id_str[:-1]
     query_str = 'https://api.guildwars2.com/v2/commerce/listings?ids=' + id_str
     response = requests.get(query_str).content
@@ -52,15 +55,17 @@ def GetMarketData(item_number_list: List[int]) -> List[dict]:
     return(market_list)
 
 
-def CalculateMarketEstimates(market_list: List[dict]) -> dict:
+def CalculateMarketEstimates(market_list: List[dict], items_dict: dict) -> dict:
 
     from math import floor
 
     market_dict = {}
     for item_dict in market_list:
-      estimated_profit_one = item_dict['sells'][0]['unit_price'] - item_dict['buys'][0]['unit_price'] - 0.15 *item_dict['sells'][0]['unit_price']
-      estimated_profit_two = item_dict['sells'][1]['unit_price'] - item_dict['buys'][1]['unit_price'] - 0.15 *item_dict['sells'][1]['unit_price']
-      market_dict[item_dict['id']] = [item_dict['buys'][0]['unit_price'], item_dict['sells'][0]['unit_price'], floor(estimated_profit_one)]
+        print(items_dict)
+        item_name = items_dict[str(item_dict['id'])]
+        estimated_profit_one = item_dict['sells'][0]['unit_price'] - item_dict['buys'][0]['unit_price'] - 0.15 *item_dict['sells'][0]['unit_price']
+        estimated_profit_two = item_dict['sells'][1]['unit_price'] - item_dict['buys'][1]['unit_price'] - 0.15 *item_dict['sells'][1]['unit_price']
+        market_dict[item_name] = [item_dict['buys'][0]['unit_price'], item_dict['sells'][0]['unit_price'], floor(estimated_profit_one)]
 
     market_dict = dict(reversed(sorted(market_dict.items(), key=lambda t:t[1][2])))
     return(market_dict)
