@@ -7,10 +7,42 @@ from app.webfunctions import ScrubUserText, FindItemNumber, ProcessItemName, Get
 
 @app.route('/_gettpdata')
 def GetTPData():
-    print(2)
     market_list = GetMarketData(session['items_dict'])
     market_dict = CalculateMarketEstimates(market_list, session['items_dict'])
     return(jsonify(market_dict))
+
+
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
+def Homepage():
+    if request.method == 'POST':
+        item_list = ScrubUserText(request.form['items'])
+        if not item_list:
+          return(redirect(url_for('BadCharPage')))
+        item_id_list = []
+        item_name_list = []
+        for item_name in item_list:
+          item_query_name = ProcessItemName(item_name)
+          item_id = FindItemNumber(item_query_name)
+          item_id_list.append(item_id)
+          item_name_list.append(item_name)
+        session['items_dict'] = dict(zip(item_id_list, item_name_list))
+        return(redirect(url_for('MarketDataPage')))
+
+    else:
+      return(render_template('index.html'))
+
+
+@app.route('/market_data', methods=['GET'])
+def MarketDataPage():
+    return(render_template('tp_table.html'))
+
+@app.route('/bad_character', methods=['GET', 'POST'])
+def BadCharPage():
+  if request.method == 'POST':
+      print('Hello')
+  else:
+      return(render_template('bad_character.html'))
 
   # id_dict = {24295: 'Vial of Powerful Blood',
   #            24294: 'Vial of Potent Blood',  
@@ -60,31 +92,3 @@ def GetTPData():
   #            24345: 'Heavy Bone',
   #            24341: 'Large Bone',
   #            24358: 'Ancient Bone'}
-
-
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/index', methods=['GET', 'POST'])
-def Homepage():
-    if request.method == 'POST':
-        item_list = ScrubUserText(request.form['items'])
-        item_id_list = []
-        item_name_list = []
-        for item_name in item_list:
-          item_query_name = ProcessItemName(item_name)
-          item_id = FindItemNumber(item_query_name)
-          item_id_list.append(item_id)
-          item_name_list.append(item_name)
-        session['items_dict'] = dict(zip(item_id_list, item_name_list))
-        return(redirect(url_for('MarketDataPage')))
-
-    else:
-      return(render_template('index.html'))
-
-
-@app.route('/market_data', methods=['GET'])
-def MarketDataPage():
-    return(render_template('tp_table.html'))
-
-
-  
-

@@ -5,7 +5,11 @@
 from typing import List,Dict
 
 def ScrubUserText(user_input_text: str) -> List[str]:
-    # ScrubbaDubDub here
+    for char in user_input_text:
+        if (char.isalpha() or char==',' or char==' '):
+            pass
+        else:
+            return([])
     item_list =  user_input_text.split(',')
 
     for item in item_list:
