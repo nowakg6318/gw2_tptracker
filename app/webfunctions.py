@@ -36,13 +36,16 @@ def FindItemNumber(item_query_name: str) -> int:
     from bs4 import BeautifulSoup
 
     item_wiki_query_url = 'https://wiki.guildwars2.com/wiki/' + ''.join(item_query_name)
-    soup = BeautifulSoup(requests.get(item_wiki_query_url).content, 'html.parser')
+    query = requests.get(item_wiki_query_url)
+    if query.status_code == 404:
+        return(False)
+    soup = BeautifulSoup(query.content, 'html.parser')
     tag = soup.find(href=True, string='API')
     item_id = tag['href'][40:45]
     return(item_id)
 
 
-def GetMarketData(items_dict: dict) -> List[Dict]:
+def GetMarketData(items_dict: Dict) -> List[Dict]:
     '''
     '''
 
@@ -65,7 +68,6 @@ def CalculateMarketEstimates(market_list: List[dict], items_dict: dict) -> dict:
 
     market_dict = {}
     for item_dict in market_list:
-        print(items_dict)
         item_name = items_dict[str(item_dict['id'])]
         estimated_profit_one = item_dict['sells'][0]['unit_price'] - item_dict['buys'][0]['unit_price'] - 0.15 *item_dict['sells'][0]['unit_price']
         estimated_profit_two = item_dict['sells'][1]['unit_price'] - item_dict['buys'][1]['unit_price'] - 0.15 *item_dict['sells'][1]['unit_price']
