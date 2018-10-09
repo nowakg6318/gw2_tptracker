@@ -37,7 +37,8 @@ def FindItemNumber(item_query_name: str) -> int:
 
     item_wiki_query_url = 'https://wiki.guildwars2.com/wiki/' + ''.join(item_query_name)
     query = requests.get(item_wiki_query_url)
-    if query.status_code == 404:
+    if (query.status_code == 404) or ('API' not in str(query.content)):
+        print(1)
         return(False)
     soup = BeautifulSoup(query.content, 'html.parser')
     tag = soup.find(href=True, string='API')

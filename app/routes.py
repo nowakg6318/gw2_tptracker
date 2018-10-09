@@ -12,26 +12,38 @@ def GetTPData():
     return(jsonify(market_dict))
 
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/index', methods=['GET', 'POST'])
-def Homepage():
-    if request.method == 'POST':
-        CalculateArbitrage(request.form['items'])
-    else:
-        return(render_template('index.html'))
-
-
 @app.route('/market_data', methods=['GET'])
 def MarketDataPage():
     return(render_template('tp_table.html'))
 
 
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
+def Homepage():
+    if request.method == 'POST':
+        CalculateArbitrage(request.form['items'])
+        return(redirect(url_for('MarketDataPage')))
+    else:
+        return(render_template('index.html'))
+
+
 @app.route('/bad_character', methods=['GET', 'POST'])
 def BadCharPage():
     if request.method == 'POST':
-        print('Hello')
+        CalculateArbitrage(request.form['items'])
+        return(redirect(url_for('MarketDataPage')))
     else:
         return(render_template('bad_character.html'))
+
+
+@app.route('/bad_item_name', methods=['GET', 'POST'])
+def BadItemNamePage():
+    breakpoint()
+    if request.method == 'POST':
+        CalculateArbitrage(request.form['items'])
+        return(redirect(url_for('MarketDataPage')))
+    else:
+        return(render_template('bad_item_name.html'))
 
 
 def CalculateArbitrage(user_text: str) -> None:
@@ -45,11 +57,11 @@ def CalculateArbitrage(user_text: str) -> None:
         item_query_name = ProcessItemName(item_name)
         item_id = FindItemNumber(item_query_name)
         if not item_id:
-            return(redirect(url_for('BadCharPage')))
+            print(item_name, item_query_name)
+            return(redirect(url_for('BadItemNamePage')))
         item_id_list.append(item_id)
         item_name_list.append(item_name)
     session['items_dict'] = dict(zip(item_id_list, item_name_list))
-    return(redirect(url_for('MarketDataPage')))
 
 
   # id_dict = {24295: 'Vial of Powerful Blood',

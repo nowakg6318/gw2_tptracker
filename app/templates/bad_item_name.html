@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <script type=text/javascript src="{{url_for('static', filename='js/jquery.js') }}"></script>
+        <title>GW2 Trading Post Profit Margins</title>
+    </head>
+    <body>
+        <p>
+            We had trouble processing your last request, there was an item name that we couldn't
+            find.  Please check your spelling and retype. <br />
+        </p>
+        <form action='', id='form', method='POST'>
+            Items: <input type="text" name="items"> <br />
+            <input type="submit", value='Submit', onclick=getUserInputItems()>
+        </form>
+
+        <p id='form_info'></p>
+
+        <script>
+            function getUserInputItems(){
+                var new_html = '';
+                var user_input = document.getElementById('form').elements[0].value.split(',');
+                var i;
+                for (i = 0; i < user_input.length; i++){
+                    new_html += user_input[i] + '<br>';
+                }
+                document.getElementById('form_info').innerHTML = new_html;
+            }
+        </script>  
+    </body>
+</html>
