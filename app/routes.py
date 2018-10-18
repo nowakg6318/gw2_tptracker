@@ -21,34 +21,31 @@ def MarketDataPage():
 @app.route('/index', methods=['GET', 'POST'])
 def Homepage():
     if request.method == 'POST':
-        CalculateArbitrage(request.form['items'])
-        return(redirect(url_for('MarketDataPage')))
+        return(redirect(url_for('CalculateArbitrage', user_data=request.form['items'])))
     else:
         return(render_template('index.html'))
 
 
 @app.route('/bad_character', methods=['GET', 'POST'])
 def BadCharPage():
+    print(request.method)
     if request.method == 'POST':
-        CalculateArbitrage(request.form['items'])
-        return(redirect(url_for('MarketDataPage')))
+        return(redirect(url_for('CalculateArbitrage', user_data=request.form['items'])))
     else:
         return(render_template('bad_character.html'))
 
 
 @app.route('/bad_item_name', methods=['GET', 'POST'])
 def BadItemNamePage():
-    breakpoint()
     if request.method == 'POST':
-        CalculateArbitrage(request.form['items'])
-        return(redirect(url_for('MarketDataPage')))
+        return(redirect(url_for('CalculateArbitrage', user_data=request.form['items'])))
     else:
         return(render_template('bad_item_name.html'))
 
 
-def CalculateArbitrage(user_text: str) -> None:
-    breakpoint()
-    item_list = ScrubUserText(user_text)
+@app.route('/calculations', methods=['GET', 'POST'])
+def CalculateArbitrage():
+    item_list = ScrubUserText(request.args['user_data'])
     if not item_list:
         return(redirect(url_for('BadCharPage')))
     item_id_list = []
@@ -57,11 +54,11 @@ def CalculateArbitrage(user_text: str) -> None:
         item_query_name = ProcessItemName(item_name)
         item_id = FindItemNumber(item_query_name)
         if not item_id:
-            print(item_name, item_query_name)
             return(redirect(url_for('BadItemNamePage')))
         item_id_list.append(item_id)
         item_name_list.append(item_name)
     session['items_dict'] = dict(zip(item_id_list, item_name_list))
+    return(redirect(url_for('MarketDataPage')))
 
 
   # id_dict = {24295: 'Vial of Powerful Blood',
