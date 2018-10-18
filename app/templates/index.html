@@ -11,31 +11,13 @@
         </p>
         <form action='', id='form', method='POST'>
             Items: <input type="text" name="items"> <br />
-            <input type="submit", value='Submit', onclick=getUserInputItems()>
+            <input type="submit", value='Submit'>
         </form>
 
         <p id='form_info'></p>
 
         <script>
             $(document).ready(function() {
-                // $(document).on('submit', 'form', function() {
-                //     var data = {'data': document.getElementById('form').elements[0].value}
-                //     $.ajax({
-                //         url: '/',
-                //         type: 'POST',
-                //         data: $('#form').serialize()            
-                //     });
-                //   return false;
-                //  });
-            });
-            function getUserInputItems(){
-                var new_html = '';
-                var user_input = document.getElementById('form').elements[0].value.split(',');
-                var i;
-                for (i = 0; i < user_input.length; i++){
-                    new_html += user_input[i] + '<br>';
-                }
-                document.getElementById('form_info').innerHTML = new_html;
             }
         </script>  
     </body>

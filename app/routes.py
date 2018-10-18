@@ -34,12 +34,15 @@ def BadItemNamePage():
 
 @app.route('/calculations', methods=['GET', 'POST'])
 def CalculateArbitrage():
+
     if request.args['user_data'] != '':
       item_list = ScrubUserText(request.args['user_data'])
     else:
       item_list = crafting_item_list
+
     if not item_list:
         return(redirect(url_for('BadCharPage')))
+
     item_id_list = []
     item_name_list = []
     for item_name in item_list:
