@@ -1,8 +1,9 @@
 from flask import render_template, request, redirect, url_for, session
 from flask.json import jsonify
 
-from app import app
+import pdb 
 
+from app import app
 from app.webfunctions import ScrubUserText, FindItemNumber, ProcessItemName, GetMarketData, CalculateMarketEstimates
 
 
@@ -10,7 +11,7 @@ from app.webfunctions import ScrubUserText, FindItemNumber, ProcessItemName, Get
 @app.route('/index', methods=['GET', 'POST'])
 def Homepage():
     if request.method == 'POST':
-        return(redirect(url_for('CalculateArbitrage', user_data=request.form['items'])))
+        return(redirect(url_for('CalculateArbitrage', user_data=request.form['Crafting Items'])))
     else:
         return(render_template('index.html'))
 
@@ -34,7 +35,6 @@ def BadItemNamePage():
 
 @app.route('/calculations', methods=['GET', 'POST'])
 def CalculateArbitrage():
-
     if request.args['user_data'] != '':
       item_list = ScrubUserText(request.args['user_data'])
     else:
@@ -115,4 +115,31 @@ crafting_item_list = (['Vial of Powerful Blood',
            'Bone',
            'Heavy Bone',
            'Large Bone',
-           'Ancient Bone'])
+           'Ancient Bone',
+           'Mystic Clover',
+           'Mystic Coin',
+           'Glob of Ectoplasm',
+           'Obsidian Shard',
+           'Bottle of Elonian Wine',
+           'Icy Runestone',
+           'Mystic Runestone',
+           'Shard of Glory',
+           'Memory of Battle',
+           'Jute Scrap',
+           'Wool Scrap',
+           'Cotton Scrap',
+           'Linen Scrap',
+           'Silk Scrap',
+           'Gossamer Scrap',
+           'Bolt of Jute',
+           'Bolt of Wool',
+           'Bolt of Cotton',
+           'Bolt of Linen',
+           'Bolt of Silk',
+           'Bolt of Gossamer',
+           'Spool of Jute Thread',
+           'Bolt of Wool',
+           'Bolt of Cotton',
+           'Bolt of Linen',
+           'Bolt of Silk',
+           'Bolt of Gossamer'])

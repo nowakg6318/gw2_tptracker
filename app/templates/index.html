@@ -1,6 +1,7 @@
 <html>
     <head>
         <script type=text/javascript src="{{url_for('static', filename='js/jquery.js') }}"></script>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
         <title>GW2 Trading Post Profit Margins</title>
     </head>
     <body>
@@ -9,9 +10,15 @@
             Input the items in a comma-deliminated list.  eg: item1, item2, item3, ... <br />
             Or, leave the text box blank to see the most common crafting items.
         </p>
-        <form action='', id='form', method='POST'>
-            Items: <input type="text" name="items"> <br />
+
+        <form action='', method='POST'>
+            Items: <input type="text" name="Crafting Items"> <br />
             <input type="submit", value='Submit'>
+        </form>
+
+        <form action='', method='POST'>
+           <input type="hidden", name="Crafting Items", value="Vial of Powerful Blood, Vial of Potent Blood, Vial of Thick Blood, Vial of Blood, Vial of Thin Blood, Vial of Weak Blood, Powerful Venom Sac, Potent Venom Sac, Full Venom Sac, Venom Sac, Small Venom Sac, Tiny Venom Sac, Tiny Totem, Small Totem, Totem, Engraved Totem, Intricate Totem, Elaborate Totem, Tiny Scale, Small Scale, Scale, Smooth Scale, Large Scale, Armored Scale, Tiny Fang, Small Fang, Fang, Sharp Fang, Large Fang, Vicious Fang, Pile of Glittering Dust, Pile of Shimmering Dust, Pile of Radiant Dust, Pile of Luminous Dust, Pile of Incandescent Dust, Pile of Crystalline Dust, Tiny Claw, Small Claw, Claw, Sharp Claw, Large Claw, Vicious Claw, Bone Chip, Bone Shard, Bone, Heavy Bone, Large Bone, Ancient Bone, Mystic Clover, Mystic Coin, Glob of Ectoplasm, Obsidian Shard, Bottle of Elonian Wine, Icy Runestone, Mystic Runestone, Shard of Glory, Memory of Battle, Jute Scrap, Wool Scrap, Cotton Scrap, Linen Scrap, Silk Scrap, Gossamer Scrap, Bolt of Jute, Bolt of Wool, Bolt of Cotton, Bolt of Linen, Bolt of Silk, Bolt of Gossamer, Spool of Jute Thread, Bolt of Wool, Bolt of Cotton, Bolt of Linen, Bolt of Silk, Bolt of Gossamer">
+           <input type="submit" value="Crafting Items">
         </form>
 
         <p id='form_info'></p>
