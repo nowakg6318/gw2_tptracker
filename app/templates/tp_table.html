@@ -1,6 +1,7 @@
 <html>
     <head>
         <script type=text/javascript src="{{url_for('static', filename='js/jquery.js') }}"></script>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
         <style>
             td, th {
                 border: 1px solid #999;
@@ -27,6 +28,7 @@
                                                         <th>Buy Price (copper)</th> \
                                                         <th>Sell Price (copper)</th> \
                                                         <th>Estimated Profits (copper)</th> \
+                                                        <th>Profit / Buy Price</th> \
                                                     </tr> \
                                                 </thead> \
                                                 <tbody>';
@@ -34,7 +36,8 @@
                         body_string += '<tr><td>' + String(item) + '</td> \
                                          <td>' + String(dict[String(item)][0]) + '</td> \
                                          <td>' + String(dict[String(item)][1]) + '</td> \
-                                         <td>' + String(dict[String(item)][2]) + '</td></tr>';
+                                         <td>' + String(dict[String(item)][2]) + '</td> \
+                                         <td>' + String(dict[String(item)][3]) + '</td></tr>';
                     }
                     body_string += '</tbody> \
                                      </table> \

@@ -70,9 +70,9 @@ def CalculateMarketEstimates(market_list: List[dict], items_dict: dict) -> dict:
     market_dict = {}
     for item_dict in market_list:
         item_name = items_dict[str(item_dict['id'])]
-        estimated_profit_one = item_dict['sells'][0]['unit_price'] - item_dict['buys'][0]['unit_price'] - 0.15 *item_dict['sells'][0]['unit_price']
-        estimated_profit_two = item_dict['sells'][1]['unit_price'] - item_dict['buys'][1]['unit_price'] - 0.15 *item_dict['sells'][1]['unit_price']
-        market_dict[item_name] = [item_dict['buys'][0]['unit_price'], item_dict['sells'][0]['unit_price'], floor(estimated_profit_one)]
+        estimated_profit = item_dict['sells'][0]['unit_price'] - item_dict['buys'][0]['unit_price'] - 0.15 *item_dict['sells'][0]['unit_price']
+        metric = estimated_profit / item_dict['buys'][0]['unit_price']
+        market_dict[item_name] = [item_dict['buys'][0]['unit_price'], item_dict['sells'][0]['unit_price'], floor(estimated_profit), metric]
 
-    market_dict = dict(reversed(sorted(market_dict.items(), key=lambda t:t[1][2])))
+    market_dict = dict(reversed(sorted(market_dict.items(), key=lambda t:t[1][3])))
     return(market_dict)
