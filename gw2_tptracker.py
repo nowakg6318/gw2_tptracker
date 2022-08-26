@@ -11,7 +11,7 @@ def main():
     import pandas as pd
     import helperfunctions as hf 
 
-    item_list = hf.crafting_item_list
+    item_list = hf.crafting_item_list[:3]
     item_dict = hf.ProcessInput(item_list)
     market_list = hf.GetMarketData(item_dict)
     market_dict = hf.CalculateMarketEstimates(market_list, item_dict)
@@ -19,7 +19,7 @@ def main():
                                 columns=['Buy Price', 'Sell Price', 'Profit'])
     df.sort_values('Profit', ascending=False)
     #print(df)
-    df.to_excel('text.xlsx')
+    df.to_excel('gw2_TPInfo.xlsx')
 
 if __name__ == '__main__':
     main()
